@@ -31,7 +31,8 @@ bld/
 [Ll]og/
 [Ll]ogs/
 [Ll]ibrary/
-[Tt]temp
+[Tt]emp
+[Uu]serSettings
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
