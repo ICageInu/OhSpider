@@ -56,20 +56,13 @@
      <Compile Include="Assets\Scripts\Failed\IKScriptIt3.cs" />
      <Compile Include="Assets\Scripts\WIP\MovementSpider.cs" />
      <Folder Include="Assets" />
-     <Folder Include="Assets\Old\scripts" />
      <Folder Include="Assets\Objects\Failed" />
-     <Folder Include="Assets\Old\scripts\Failed" />
      <Folder Include="Assets\Objects" />
-     <Folder Include="Assets\Old\objects" />
      <Folder Include="Assets\Scenes" />
      <Folder Include="Assets\Scripts" />
-     <Folder Include="Assets\Old\scripts\WIP" />
      <Folder Include="Assets\Objects\Tryout" />
-     <Folder Include="Assets\Old\objects\Tryout" />
      <Folder Include="Assets\Scripts\WIP" />
-     <Folder Include="Assets\Old\objects\Failed" />
-     <Folder Include="Assets\Old" />
-     <Folder Include="Assets\Old\Scenes" />
+     <Folder Include="Assets\Materials" />
      <Folder Include="Assets\Scripts\Failed" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
