@@ -1,26 +1,36 @@
 ﻿using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class StepTarget : MonoBehaviour
 {
 	[SerializeField] private LayerMask _layerMask;
 	[SerializeField] private Vector3 _offset = new Vector3(0, 25f, 0);
+	[SerializeField]
+	private Transform _anchor;
+	
+	
 	private bool _isGrounded = false;
 	private Ray _cachedRay;
-
-	private Vector3 _targetPosition;
+	
 
 	private RaycastHit _groundHit;
 
+	public Vector3 ProjectedPosition
+	{
+		get
+		{
+			return _isGrounded ? _groundHit.point : transform.position - _offset;
+		}
+	}
 	public bool IsGrounded => _isGrounded;
 
-	public Vector3 TargetPosition => _targetPosition;
-	public Quaternion TargetRotation => transform.rotation;
+	public Vector3 AnchorPosition => _anchor.position;
 
 	private void Awake()
 	{
-		_targetPosition = transform.position - _offset;
+		_anchor.position = transform.position - _offset;
 	}
 
 	void FixedUpdate()
@@ -32,14 +42,15 @@ public class StepTarget : MonoBehaviour
 		
 		if (_isGrounded)
 		{
-			_targetPosition = _groundHit.point;
+			_anchor.position = _groundHit.point;
+			transform.position = _groundHit.point + _offset - new Vector3(0, 1f, 0);
 		}
 		// Debug.Log(_isGrounded);
 
-		// if (!_isGrounded)
-		// {
-		// 	gameObject.transform.position += 4f * Physics.gravity * Time.deltaTime;
-		// }
+		if (!_isGrounded)
+		{
+			transform.position += Physics.gravity * Time.deltaTime;
+		}
 	}
 
 	private void OnDrawGizmos()

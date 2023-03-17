@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using UnityEngine.Serialization;
 
 //https://www.youtube.com/watch?v=qqOAzn05fvk
 //courtesy https://github.com/BattleDawnNZ/ProceduralAnimation
 public class FastIK : MonoBehaviour
 {
+	[SerializeField] 
+	private Transform _anchor;
+	
 	// Chain length of bones
 	public int ChainLength = 2;
-
-	public StepTarget Target;
 
 	// Target the chain should bent to
 	public Transform Pole;
@@ -65,7 +67,7 @@ public class FastIK : MonoBehaviour
 		// 	SetPositionRootSpace(Target, GetPositionRootSpace(transform));
 		// }
 
-		StartRotationTarget = GetRotationRootSpace(Target.TargetRotation);
+		StartRotationTarget = GetRotationRootSpace(_anchor.rotation);
 
 
 		//init data
@@ -79,7 +81,7 @@ public class FastIK : MonoBehaviour
 			if (i == Bones.Length - 1)
 			{
 				//leaf
-				StartDirectionSucc[i] = GetPositionRootSpace(Target.TargetPosition) - GetPositionRootSpace(current.position);
+				StartDirectionSucc[i] = GetPositionRootSpace(_anchor.position) - GetPositionRootSpace(current.position);
 			}
 			else
 			{
@@ -101,7 +103,7 @@ public class FastIK : MonoBehaviour
 
 	private void ResolveIK()
 	{
-		if (Target == null)
+		if (_anchor == null)
 			return;
 
 		if (BonesLength.Length != ChainLength)
@@ -117,12 +119,12 @@ public class FastIK : MonoBehaviour
 		for (int i = 0; i < Bones.Length; i++)
 			Positions[i] = GetPositionRootSpace(Bones[i].position);
 
-		var targetPosition = GetPositionRootSpace(Target.TargetPosition);
-		var targetRotation = GetRotationRootSpace(Target.TargetRotation);
+		var targetPosition = GetPositionRootSpace(_anchor.position);
+		var targetRotation = GetRotationRootSpace(_anchor.rotation);
 
 		//1st is possible to reach?
 		if ((targetPosition - GetPositionRootSpace(Bones[0].position)).sqrMagnitude >=
-		    CompleteLength * CompleteLength /*- CompleteLength * 10f*/)
+		    CompleteLength * CompleteLength)
 		{
 			isStretching = true;
 			//just strech it
@@ -226,18 +228,4 @@ public class FastIK : MonoBehaviour
 		else
 			current.rotation = Root.rotation * rotation;
 	}
-
-
-	//void OnDrawGizmos()
-	//{
-	//    var current = this.transform;
-	//    for (int i = 0; i < ChainLength && current != null && current.parent != null; i++)
-	//    {
-	//        var scale = Vector3.Distance(current.position, current.parent.position) * 0.1f;
-	//        Handles.matrix = Matrix4x4.TRS(current.position, Quaternion.FromToRotation(Vector3.up, current.parent.position - current.position), new Vector3(scale, Vector3.Distance(current.parent.position, current.position), scale));
-	//        Handles.color = Color.green;
-	//        Handles.DrawWireCube(Vector3.up * 0.5f, Vector3.one);
-	//        current = current.parent;
-	//    }
-	//}
 }
