@@ -10,7 +10,7 @@ public class IKScriptIt4 : MonoBehaviour
 
     //target to move towards
     public Transform Target;
-    public TargetBehavior GroundTarget;
+    public AnchorBehavior GroundTarget;
     //used to plane how it can rotate
     public Transform Pole;
 

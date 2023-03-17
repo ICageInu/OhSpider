@@ -5,12 +5,14 @@ using UnityEngine.Serialization;
 
 public class StepTarget : MonoBehaviour
 {
-	[SerializeField] private LayerMask _layerMask;
-	[SerializeField] private Vector3 _offset = new Vector3(0, 25f, 0);
-	[SerializeField]
+	[SerializeField] 
+	private LayerMask _layerMask;
+	[SerializeField] 
+	private Vector3 _offset = new Vector3(0, 25f, 0);
+
+	
+	
 	private Transform _anchor;
-	
-	
 	private bool _isGrounded = false;
 	private Ray _cachedRay;
 	
@@ -30,7 +32,12 @@ public class StepTarget : MonoBehaviour
 
 	private void Awake()
 	{
-		_anchor.position = transform.position - _offset;
+		//_anchor.position = transform.position - _offset;
+	}
+
+	public void SetAnchor(ref AnchorBehavior anchor)
+	{
+		_anchor = anchor.transform;
 	}
 
 	void FixedUpdate()
@@ -42,7 +49,7 @@ public class StepTarget : MonoBehaviour
 		
 		if (_isGrounded)
 		{
-			_anchor.position = _groundHit.point;
+			// _anchor.position = _groundHit.point;
 			transform.position = _groundHit.point + _offset - new Vector3(0, 1f, 0);
 		}
 		// Debug.Log(_isGrounded);
