@@ -48,7 +48,7 @@
      <Compile Include="Assets\Scripts\Failed\TargetBehaviorFail.cs" />
      <Compile Include="Assets\Scripts\WIP\StepTarget.cs" />
      <Compile Include="Assets\Scripts\Failed\IKScriptIt4.cs" />
-     <Compile Include="Assets\Scripts\WIP\TargetBehavior.cs" />
+     <Compile Include="Assets\Scripts\WIP\AnchorBehavior.cs" />
      <Compile Include="Assets\Scripts\Failed\SpiderMovement.cs" />
      <Compile Include="Assets\Scripts\Failed\testLookat.cs" />
      <Compile Include="Assets\Scripts\WIP\BodyRaycast.cs" />
