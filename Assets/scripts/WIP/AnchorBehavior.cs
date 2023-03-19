@@ -14,9 +14,9 @@ public class AnchorBehavior : MonoBehaviour
 		transform.position = _oldPos;
 	}
 
-	public bool MoveAnchor(float speed)
+	public bool MoveAnchor(float speed, float yOffset)
 	{
-		transform.position = Vector3.MoveTowards(transform.position, _oldPos, speed * Time.fixedDeltaTime);
+		transform.position = Vector3.MoveTowards(transform.position, _oldPos + new Vector3(0, yOffset, 0), speed * Time.fixedDeltaTime);
 
 		return Vector3.Distance(transform.position, _oldPos) < 1f;
 	}

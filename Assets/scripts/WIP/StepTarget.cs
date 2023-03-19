@@ -30,11 +30,6 @@ public class StepTarget : MonoBehaviour
 
 	public Vector3 AnchorPosition => _anchor.position;
 
-	private void Awake()
-	{
-		//_anchor.position = transform.position - _offset;
-	}
-
 	public void SetAnchor(ref AnchorBehavior anchor)
 	{
 		_anchor = anchor.transform;

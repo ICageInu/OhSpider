@@ -11,7 +11,10 @@ public class LegController : MonoBehaviour
 	[SerializeField] private float _stepSpeed = 15f;
 	[SerializeField] private float _stepDistance = 10f;
 	[SerializeField] private float _extraSteppingDistance = 5f;
+	[SerializeField] private float _stepHeightScale = 5f;
+	[SerializeField] private AnimationCurve _legCurve;
 
+	private float _legCurvePercent = 0f;
 	private bool _updateAnchor = true;
 	private void Awake()
 	{
@@ -31,7 +34,9 @@ public class LegController : MonoBehaviour
 	{
 		if (_updateAnchor == false)
 		{
-			_updateAnchor = _anchor.MoveAnchor(_stepSpeed);
+			Debug.Log(_legCurvePercent);
+			_updateAnchor = _anchor.MoveAnchor(_stepSpeed, _legCurve.Evaluate(_legCurvePercent) * _stepHeightScale);
+			_legCurvePercent += Time.fixedDeltaTime;
 		}
 	}
 
@@ -39,6 +44,7 @@ public class LegController : MonoBehaviour
 	{
 		if (_updateAnchor && _stepTarget.IsGrounded && Vector3.Distance(_stepTarget.ProjectedPosition, _anchor.transform.position) > _stepDistance)
 		{
+			_legCurvePercent = 0f;
 			_updateAnchor = false;
 			Debug.Log("Stepping");
 			// Vector3 direction = _stepTarget.ProjectedPosition - _anchor.transform.position;
