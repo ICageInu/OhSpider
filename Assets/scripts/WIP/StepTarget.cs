@@ -36,14 +36,11 @@ public class StepTarget : MonoBehaviour
 	{
 		_cachedRay = new Ray(transform.position, -transform.up);
 		_isGrounded = Physics.Raycast(_cachedRay, out _groundHit, _offset.y, _layerMask);
-		Debug.Log(_isGrounded);
 
 		if (_isGrounded)
 		{
-			// _anchor.position = _groundHit.point;
 			transform.position = _groundHit.point + _offset - new Vector3(0, 1f, 0);
 		}
-		// Debug.Log(_isGrounded);
 
 		if (!_isGrounded)
 		{
@@ -54,6 +51,5 @@ public class StepTarget : MonoBehaviour
 	private void OnDrawGizmos()
 	{
 		Debug.DrawRay(transform.position, -transform.up * _offset.y, Color.grey);
-		// Debug.DrawRay(transform.position + _offset, Vector3.down);
 	}
 }
