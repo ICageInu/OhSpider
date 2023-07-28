@@ -5,10 +5,11 @@ using UnityEngine;
 public class testLookat : MonoBehaviour
 {
     public Transform Target;
-    // Update is called once per frame
+    [SerializeField] private Vector3 _offset = new Vector3(0, 20, -50);
     void Update()
     {
         var dir = Target.position - transform.position;
         transform.rotation = Quaternion.LookRotation(dir);
+        transform.position = Target.transform.position + _offset;
     }
 }

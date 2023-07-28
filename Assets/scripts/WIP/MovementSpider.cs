@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class MovementSpider : MonoBehaviour
 {
-    private CharacterController _charController = null;
+    [SerializeField]
     private float _movementSpeed = 15.0f;
 
     private bool _leftStep = false;
 
     private LegController[] _legs = null;
 
-    //returns normalised direction/velocity
-    public Vector3 GetDirection()
-    {
-        return Vector3.Normalize(_charController.velocity);
-    }
+    // //returns normalised direction/velocity
+    // public Vector3 GetDirection()
+    // {
+    //     return Vector3.Normalize(_charController.velocity);
+    // }
 
     private void Awake()
     {
-        _charController = GetComponent<CharacterController>();
+        //_charController = GetComponent<CharacterController>();
 
     }
 
@@ -27,11 +27,11 @@ public class MovementSpider : MonoBehaviour
     {
 
         //var relForward = transform.InverseTransformDirection();
-        Vector3 movement = Input.GetAxis("Vertical") * _movementSpeed * transform.forward;
+        Vector3 movement = transform.forward * (Input.GetAxis("Vertical") * _movementSpeed * Time.deltaTime);
+        Debug.Log(movement);
 
-
-        _charController.Move(movement * Time.deltaTime);
-        _charController.transform.Rotate(transform.up, 20f * Input.GetAxis("Horizontal") * Time.deltaTime);
+        transform.position += movement;
+        transform.Rotate(transform.up, 20f * Input.GetAxis("Horizontal") * Time.deltaTime);
 
     }
 }

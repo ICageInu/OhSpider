@@ -4,6 +4,8 @@ using UnityEngine.Serialization;
 
 public class LegController : MonoBehaviour
 {
+	#region EditorFields
+	
 	[SerializeField] private GameObject _parentObject;
 	[SerializeField] private FastIK _IKSystem = null;
 	[SerializeField] private StepTarget _stepTarget = null;
@@ -14,8 +16,25 @@ public class LegController : MonoBehaviour
 	[SerializeField] private float _stepHeightScale = 5f;
 	[SerializeField] private AnimationCurve _legCurve;
 
+	[SerializeField] private LegController[] _lookAtTargets;
+	
+	#endregion
+
+	#region Properties
+
+	public bool IsUpdatingAnchor => _updateAnchor;
+
+	#endregion
+
+	#region Fields
+	
 	private float _legCurvePercent = 0f;
 	private bool _updateAnchor = true;
+	
+	#endregion
+
+	#region Lifecycle
+	
 	private void Awake()
 	{
 		if (!_IKSystem) GetComponentInChildren<FastIK>();
@@ -23,6 +42,8 @@ public class LegController : MonoBehaviour
 		if (!_anchor) GetComponentInChildren<AnchorBehavior>();
 		_stepTarget.SetAnchor(ref _anchor);
 	}
+	
+	#endregion
 
 	private void Update()
 	{
@@ -34,7 +55,11 @@ public class LegController : MonoBehaviour
 	{
 		if (_updateAnchor == false)
 		{
-			Debug.Log(_legCurvePercent);
+			for (int i = 0; i < _lookAtTargets.Length; i++)
+			{
+				if (_lookAtTargets[i].IsUpdatingAnchor)
+					return;
+			}
 			_updateAnchor = _anchor.MoveAnchor(_stepSpeed, _legCurve.Evaluate(_legCurvePercent) * _stepHeightScale);
 			_legCurvePercent += Time.fixedDeltaTime;
 		}
@@ -46,8 +71,6 @@ public class LegController : MonoBehaviour
 		{
 			_legCurvePercent = 0f;
 			_updateAnchor = false;
-			Debug.Log("Stepping");
-			// Vector3 direction = _stepTarget.ProjectedPosition - _anchor.transform.position;
 			Debug.DrawRay(_stepTarget.ProjectedPosition, _parentObject.transform.forward * _extraSteppingDistance, Color.blue, 10f);
 			_anchor.SetEndPosition(_stepTarget.ProjectedPosition + _parentObject.transform.forward * _extraSteppingDistance);
 		}

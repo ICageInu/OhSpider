@@ -5,27 +5,24 @@ using UnityEngine.Serialization;
 
 public class StepTarget : MonoBehaviour
 {
-	[SerializeField] 
-	private LayerMask _layerMask;
-	[SerializeField] 
-	private Vector3 _offset = new Vector3(0, 25f, 0);
+	[SerializeField] private LayerMask _layerMask;
+	[SerializeField] private Vector3 _offset = new Vector3(0, 25f, 0);
 
-	
-	
+	[SerializeField] private float _fallspeed = 2f;
+
+
 	private Transform _anchor;
 	private bool _isGrounded = false;
 	private Ray _cachedRay;
-	
+
 
 	private RaycastHit _groundHit;
 
 	public Vector3 ProjectedPosition
 	{
-		get
-		{
-			return _isGrounded ? _groundHit.point : transform.position - _offset;
-		}
+		get { return _isGrounded ? _groundHit.point : transform.position - _offset; }
 	}
+
 	public bool IsGrounded => _isGrounded;
 
 	public Vector3 AnchorPosition => _anchor.position;
@@ -39,9 +36,8 @@ public class StepTarget : MonoBehaviour
 	{
 		_cachedRay = new Ray(transform.position, -transform.up);
 		_isGrounded = Physics.Raycast(_cachedRay, out _groundHit, _offset.y, _layerMask);
-		
-		// Debug.DrawRay(transform.position, Vector3.down);
-		
+		Debug.Log(_isGrounded);
+
 		if (_isGrounded)
 		{
 			// _anchor.position = _groundHit.point;
@@ -51,7 +47,7 @@ public class StepTarget : MonoBehaviour
 
 		if (!_isGrounded)
 		{
-			transform.position += Physics.gravity * Time.deltaTime;
+			transform.position += Physics.gravity * (Time.deltaTime * _fallspeed);
 		}
 	}
 
