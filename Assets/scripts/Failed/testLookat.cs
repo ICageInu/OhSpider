@@ -6,7 +6,7 @@ public class testLookat : MonoBehaviour
 {
     public Transform Target;
     [SerializeField] private Vector3 _offset = new Vector3(0, 20, -50);
-    void Update()
+    void LateUpdate()
     {
         var dir = Target.position - transform.position;
         transform.rotation = Quaternion.LookRotation(dir);
